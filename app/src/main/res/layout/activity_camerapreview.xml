@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.liany.cameratest.camera.CameraPreviewView
+            android:id="@+id/camePreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:layout_marginTop="8dip"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_left_flash"
+                android:layout_width="48dip"
+                android:layout_height="48dip"
+                android:layout_margin="4dip"
+                android:src="@mipmap/ic_camera_top_bar_flash_auto_normal" />
+
+            <ImageView
+                android:id="@+id/iv_camera_front"
+                android:layout_width="48dip"
+                android:layout_height="48dip"
+                android:layout_margin="4dip"
+                android:src="@mipmap/ic_camera_top_bar_sw_camera_normal" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="onFinish"
+            android:paddingLeft="8dip"
+            android:paddingRight="8dip"
+            android:src="@mipmap/back" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/camera_take"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dip"
+        android:layout_marginRight="5dip"
+        android:onClick="onCapture">
+
+        <ImageView
+            android:id="@+id/iv_camera"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerInside"
+            android:layout_marginBottom="20dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_camera" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
