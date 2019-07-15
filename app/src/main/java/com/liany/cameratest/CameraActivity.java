@@ -1,7 +1,8 @@
 package com.liany.cameratest;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,11 +11,15 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.liany.cameratest.callback.ICameraCall;
 import com.liany.cameratest.camera.CameraPreviewView;
+import com.liany.cameratest.centerPopup.OrientationPopup;
 import com.liany.cameratest.utils.FileUtils;
 import com.liany.cameratest.utils.ScaleGestureListener;
+import com.lxj.xpopup.XPopup;
 
 import java.io.File;
 
@@ -44,10 +49,17 @@ public class CameraActivity extends AppCompatActivity implements ICameraCall {
     ImageView ivCamera;
 
     public String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "cameraTest/";
+    @BindView(R.id.linearLayout1)
+    LinearLayout linearLayout1;
+    @BindView(R.id.iv_img)
+    ImageView ivImg;
+    @BindView(R.id.camera_take)
+    RelativeLayout cameraTake;
 
     private ScaleGestureDetector gestureDetector;//缩放手势
     private int mSgType = 2;//1 不开启闪光灯 2自动 3长亮
     private ProgressDialog dialog;
+    private File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +72,7 @@ public class CameraActivity extends AppCompatActivity implements ICameraCall {
         gestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener(camePreview));
     }
 
-    @OnClick({R.id.iv_left_flash, R.id.iv_camera_front, R.id.iv_back, R.id.iv_camera, R.id.camePreview})
+    @OnClick({R.id.iv_left_flash, R.id.iv_camera_front, R.id.iv_back, R.id.iv_camera, R.id.camePreview, R.id.iv_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left_flash:
@@ -81,6 +93,11 @@ public class CameraActivity extends AppCompatActivity implements ICameraCall {
             case R.id.camePreview:
                 //手动对焦
 //                camePreview.autoFocus();
+                break;
+            case R.id.iv_img:
+                Intent intent = new Intent(CameraActivity.this,PhotoViewActivity.class);
+                intent.putExtra("filePath",file.getAbsolutePath());
+                startActivity(intent);
                 break;
         }
     }
@@ -109,9 +126,15 @@ public class CameraActivity extends AppCompatActivity implements ICameraCall {
     @Override
     public void onCameraData(byte[] data) {
         //保存到本地
-        File file = new FileUtils(this).saveToSDCard(data, filePath);
+        file = new FileUtils(this).saveToSDCard(data, filePath);
         dialog.dismiss();
         camePreview.start();
+        ivImg.setVisibility(View.VISIBLE);
+        ivImg.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+        //显示弹窗
+        new XPopup.Builder(this)
+                .asCustom(new OrientationPopup(this))
+                .show();
     }
 
     @Override

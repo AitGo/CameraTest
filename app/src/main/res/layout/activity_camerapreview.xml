@@ -52,7 +52,6 @@
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="onFinish"
             android:paddingLeft="8dip"
             android:paddingRight="8dip"
             android:src="@mipmap/back" />
@@ -70,9 +69,16 @@
         android:onClick="onCapture">
 
         <ImageView
+            android:id="@+id/iv_img"
+            android:visibility="visible"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true" />
+
+        <ImageView
             android:id="@+id/iv_camera"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:scaleType="centerInside"
             android:layout_marginBottom="20dp"
             android:layout_centerInParent="true"

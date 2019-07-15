@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_orientation_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:text="拍摄方向"
+            android:textSize="14sp" />
+
+        <RadioGroup
+            android:id="@+id/rg_orientation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_orientation_title"
+            android:orientation="vertical">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_sn"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="由南向北"
+                    android:button="@null"
+                    android:background="@drawable/bg_radio_blue"/>
+
+                <RadioButton
+                    android:id="@+id/rb_ns"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="由北向南"
+                    android:button="@null"
+                    android:background="@drawable/bg_radio_blue"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_ew"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bg_radio_blue"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="由东向西" />
+
+                <RadioButton
+                    android:id="@+id/rb_we"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="由西向东"
+                    android:button="@null"
+                    android:background="@drawable/bg_radio_blue"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_eswn"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="由东南向西北"
+                    android:button="@null"
+                    android:background="@drawable/bg_radio_blue"/>
+
+                <RadioButton
+                    android:id="@+id/rb_wnes"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="由西北向东南"
+                    android:button="@null"
+                    android:background="@drawable/bg_radio_blue"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_wsen"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="由西南向东北"
+                    android:button="@null"
+                    android:background="@drawable/bg_radio_blue"/>
+
+                <RadioButton
+                    android:id="@+id/rb_enws"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="由东北向西南"
+                    android:button="@null"
+                    android:background="@drawable/bg_radio_blue"/>
+
+            </LinearLayout>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_des_title"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/rg_orientation"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            android:text="照片描述"
+            android:textSize="12sp"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_des"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tv_des_title"
+            android:hint="请输入照片描述"
+            android:textSize="14sp"/>
+        
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_des"
+            android:layout_alignParentRight="true"
+            android:text="确定"
+            android:textColor="#5aa6f2"
+            android:background="@null"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
