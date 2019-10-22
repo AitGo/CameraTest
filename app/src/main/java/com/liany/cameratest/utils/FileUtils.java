@@ -54,6 +54,33 @@ public class FileUtils {
         return jpgFile;
     }
 
+    // 保存图片到sd卡中
+    public File saveToSDCard(Bitmap waterMarkBitmap, String savePath) {
+        File fileFolder = new File(savePath);
+
+        if (!fileFolder.exists()) // 如果目录不存在，则创建一个名为"finger"的目录
+            fileFolder.mkdirs();
+
+        File jpgFile = new File(fileFolder, System.currentTimeMillis() + ".jpeg");
+        if (jpgFile.exists()) jpgFile.delete();
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(jpgFile);
+            waterMarkBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("lrxc", "saveToSDCard: " + e.getMessage());
+        } finally {
+            try {
+                if (fos != null) fos.close(); // 关闭输出流
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return jpgFile;
+    }
+
     //旋转图片
     private Bitmap createWaterMarkBitmap(Bitmap src) {
         //设置bitmap旋转

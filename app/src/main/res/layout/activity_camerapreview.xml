@@ -6,11 +6,16 @@
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/fl_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.liany.cameratest.camera.CameraPreviewView
             android:id="@+id/camePreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.liany.cameratest.utils.MaskView
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

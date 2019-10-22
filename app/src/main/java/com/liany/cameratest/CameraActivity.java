@@ -1,15 +1,21 @@
 package com.liany.cameratest;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,6 +23,7 @@ import android.widget.RelativeLayout;
 import com.liany.cameratest.callback.ICameraCall;
 import com.liany.cameratest.camera.CameraPreviewView;
 import com.liany.cameratest.centerPopup.OrientationPopup;
+import com.liany.cameratest.utils.CameraParams;
 import com.liany.cameratest.utils.FileUtils;
 import com.liany.cameratest.utils.ScaleGestureListener;
 import com.lxj.xpopup.XPopup;
@@ -55,6 +62,8 @@ public class CameraActivity extends AppCompatActivity implements ICameraCall {
     ImageView ivImg;
     @BindView(R.id.camera_take)
     RelativeLayout cameraTake;
+    @BindView(R.id.fl_camera)
+    FrameLayout flCamera;
 
     private ScaleGestureDetector gestureDetector;//缩放手势
     private int mSgType = 2;//1 不开启闪光灯 2自动 3长亮
@@ -95,8 +104,8 @@ public class CameraActivity extends AppCompatActivity implements ICameraCall {
 //                camePreview.autoFocus();
                 break;
             case R.id.iv_img:
-                Intent intent = new Intent(CameraActivity.this,PhotoViewActivity.class);
-                intent.putExtra("filePath",file.getAbsolutePath());
+                Intent intent = new Intent(CameraActivity.this, PhotoViewActivity.class);
+                intent.putExtra("filePath", file.getAbsolutePath());
                 startActivity(intent);
                 break;
         }
@@ -125,8 +134,18 @@ public class CameraActivity extends AppCompatActivity implements ICameraCall {
 
     @Override
     public void onCameraData(byte[] data) {
+        //在构造方法中获取屏幕尺寸，以备后用
+        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int screenHeight = display.getHeight();
+        int screenWidth = display.getWidth();
+
+        //裁剪图片
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+        file = new FileUtils(this).saveToSDCard(bitmap, filePath);
+        Bitmap waterMarkBitmap = createWaterMarkBitmap(bitmap);
+        waterMarkBitmap = cropBitmap(waterMarkBitmap);
         //保存到本地
-        file = new FileUtils(this).saveToSDCard(data, filePath);
+        file = new FileUtils(this).saveToSDCard(waterMarkBitmap, filePath);
         dialog.dismiss();
         camePreview.start();
         ivImg.setVisibility(View.VISIBLE);
@@ -142,6 +161,36 @@ public class CameraActivity extends AppCompatActivity implements ICameraCall {
         //手势缩放识别手势
         gestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
+    }
+
+    //旋转图片
+    private Bitmap createWaterMarkBitmap(Bitmap src) {
+        //设置bitmap旋转
+        Matrix matrix = new Matrix();
+        matrix.setRotate(CameraParams.getInstance().oritation);
+        src = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
+        return src;
+    }
+
+    /**
+     * 裁剪
+     *
+     * @param bitmap 原图
+     * @return 裁剪后的图像
+     */
+    private Bitmap cropBitmap(Bitmap bitmap) {
+        int w = bitmap.getWidth(); // 得到图片的宽，高
+        int h = bitmap.getHeight();
+        int cropWidth = w >= h ? h : w;// 裁切后所取的正方形区域边长
+        cropWidth /= 2;
+//        int cropHeight = (int) (cropWidth / 1.2);
+        int width = (int) (w * 0.5f);
+        int height = (int) (h * 0.36f);
+        int left = (w - width) / 2;
+        int top = (h - height) / 2;
+//        int right = width + left;
+//        int bottom = height + top;
+        return Bitmap.createBitmap(bitmap, left, top, width, height, null, false);
     }
 
 }
